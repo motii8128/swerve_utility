@@ -81,17 +81,21 @@ impl SwerveDriver {
         let rl_to_cr_vector = self.rear_left.position - center_rotation;
         let rr_to_cr_vector = self.rear_right.position - center_rotation;
 
+        // それぞれのベクトルを円の接線方向へ回転する
+        // 半径方向のベクトルと接線方向のベクトルは垂直に交わる
         let rotate_rad = PI / -2.0 * omega_dir;
         let fl_steer_vector = rotate_vector(fl_to_cr_vector, rotate_rad);
         let fr_steer_vector = rotate_vector(fr_to_cr_vector, rotate_rad);
         let rl_steer_vector = rotate_vector(rl_to_cr_vector, rotate_rad);
         let rr_steer_vector = rotate_vector(rr_to_cr_vector, rotate_rad);
 
+        // ベクトルの大きさを線速度とする
         self.front_left.velocity = distance(fl_steer_vector);
         self.front_right.velocity = distance(fr_steer_vector);
         self.rear_left.velocity = distance(rl_steer_vector);
         self.rear_right.velocity = distance(rr_steer_vector);
 
+        // ベクトルの向きがステアリング角度になる
         self.front_left.steer_theta = get_direction(fl_steer_vector);
         self.front_right.steer_theta = get_direction(fr_steer_vector);
         self.rear_left.steer_theta = get_direction(rl_steer_vector);
